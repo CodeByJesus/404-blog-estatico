@@ -32,6 +32,20 @@ Puedes explorar el código fuente de la versión con backend (que incluye toda l
 
 [**Repositorio del Backend del Blog en GitHub**](https://github.com/CodeByJesus/404-blog)
 
+### Funcionalidades del Blog con Backend:
+
+La versión dinámica de este blog, que sirve como CMS, incluye las siguientes características completas:
+
+*   **Gestión de Posts:** Creación, edición y eliminación de entradas de blog a través de un panel de administración intuitivo.
+*   **Comentarios:** Sistema de comentarios integrado para la interacción de los usuarios en cada post.
+*   **Categorías y Etiquetas:** Organización flexible de los posts mediante categorías y etiquetas personalizables.
+*   **Autenticación de Usuarios:** Registro, inicio y cierre de sesión de usuarios, con gestión de permisos.
+*   **Búsqueda:** Funcionalidad de búsqueda avanzada para encontrar posts por palabras clave.
+*   **Internacionalización (i18n):** Soporte completo para múltiples idiomas (Español e Inglés) en todo el contenido y la interfaz.
+*   **Editor de Texto Enriquecido:** Integración de TinyMCE para una edición de contenido de posts más cómoda y visual.
+*   **Panel de Administración de Django:** Un panel de administración potente y personalizable para gestionar todos los aspectos del blog.
+*   **Despliegue en la Nube:** Configurado para despliegue en plataformas como Render o Railway (aunque ahora se usa localmente como CMS).
+
 ## ¿Por Qué la Separación?
 
 La decisión de separar el frontend estático del backend de gestión de contenido se debe principalmente a las limitaciones y costos de mantener aplicaciones dinámicas en plataformas de hosting gratuitas. Servicios como Render o Railway, aunque excelentes, suelen tener planes gratuitos con restricciones de tiempo o recursos que hacen inviable un despliegue continuo para proyectos personales.
