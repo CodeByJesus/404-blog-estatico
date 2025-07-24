@@ -30,7 +30,7 @@ Esta versión con backend me permite usar el potente panel de administración de
 
 Puedes explorar el código fuente de la versión con backend (que incluye toda la lógica de Django, base de datos, etc.) en mi repositorio de GitHub:
 
-[**Repositorio del Backend del Blog en GitHub**](https://github.com/CodeByJesus/blog-proyecto)
+[**Repositorio del Backend del Blog en GitHub**](https://github.com/CodeByJesus/404-blog)
 
 ## ¿Por Qué la Separación?
 
