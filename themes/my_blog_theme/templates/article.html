@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}{{ article.title }} - {{ SITENAME }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>{{ article.title }}</h1>
+    <p class="meta">
+        Escrito por {{ article.author }} el {{ article.date|strftime('%d %b %Y') }}.
+    </p>
+    <div class="contenido-post">
+        {{ article.content }}
+    </div>
+    <p><a href="{{ SITEURL }}/">Volver a la lista de posts</a></p>
+</div>
+{% endblock content %}

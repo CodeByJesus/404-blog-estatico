@@ -4,6 +4,7 @@ SITEURL = ""
 
 PATH = "content"
 STATIC_PATHS = ['images']
+THEME = 'themes/my_blog_theme'
 
 TIMEZONE = 'America/Bogota'
 
