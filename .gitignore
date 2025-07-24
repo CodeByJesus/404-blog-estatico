@@ -1,0 +1,4 @@
+venv_pelican/
+output/
+__pycache__/
+*.pyc
