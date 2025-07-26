@@ -107,6 +107,11 @@ function translatePage() {
         // Traducir contenido
         translateContent();
         
+        // Reparar enlaces después de la traducción
+        setTimeout(() => {
+            repairLinks();
+        }, 100);
+        
     } else {
         // Traducir de vuelta a español
         isTranslated = false;
@@ -115,7 +120,30 @@ function translatePage() {
         
         // Restaurar contenido original
         translateContent();
+        
+        // Reparar enlaces después de la traducción
+        setTimeout(() => {
+            repairLinks();
+        }, 100);
     }
+}
+
+// Función para reparar enlaces
+function repairLinks() {
+    const allLinks = document.querySelectorAll('a');
+    allLinks.forEach(link => {
+        // Asegurar que todos los enlaces sean clickeables
+        link.style.pointerEvents = 'auto';
+        link.style.cursor = 'pointer';
+        link.style.position = 'relative';
+        link.style.zIndex = '10';
+        
+        // Verificar que el enlace tenga un href válido
+        if (link.href && link.href !== '#' && link.href !== 'javascript:void(0)') {
+            // Asegurar que el enlace sea funcional
+            link.onclick = null; // Remover cualquier onclick que pueda interferir
+        }
+    });
 }
 
 // Función para traducir el contenido
@@ -165,7 +193,14 @@ function translateContent() {
     const sidebarLinks = document.querySelectorAll('.sidebar a');
     sidebarLinks.forEach(link => {
         if (translations[link.textContent]) {
+            // Preservar el href original
+            const originalHref = link.href;
             link.textContent = translations[link.textContent];
+            // Asegurar que el href se mantenga
+            link.href = originalHref;
+            // Asegurar que sea clickeable
+            link.style.pointerEvents = 'auto';
+            link.style.cursor = 'pointer';
         }
     });
     
@@ -178,11 +213,18 @@ function translateContent() {
         }
     });
     
-    // Traducir enlaces principales (posts) - solo el texto
+    // Traducir enlaces principales (posts) - solo el texto, preservando funcionalidad
     const postLinks = document.querySelectorAll('h2 a');
     postLinks.forEach(link => {
         if (translations[link.textContent]) {
+            // Preservar el href original
+            const originalHref = link.href;
             link.textContent = translations[link.textContent];
+            // Asegurar que el href se mantenga
+            link.href = originalHref;
+            // Asegurar que sea clickeable
+            link.style.pointerEvents = 'auto';
+            link.style.cursor = 'pointer';
         }
     });
 }
