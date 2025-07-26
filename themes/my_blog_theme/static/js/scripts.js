@@ -132,16 +132,12 @@ function translatePage() {
 function repairLinks() {
     const allLinks = document.querySelectorAll('a');
     allLinks.forEach(link => {
-        // Asegurar que todos los enlaces sean clickeables
-        link.style.pointerEvents = 'auto';
-        link.style.cursor = 'pointer';
-        link.style.position = 'relative';
-        link.style.zIndex = '10';
-        
-        // Verificar que el enlace tenga un href válido
-        if (link.href && link.href !== '#' && link.href !== 'javascript:void(0)') {
-            // Asegurar que el enlace sea funcional
-            link.onclick = null; // Remover cualquier onclick que pueda interferir
+        // Solo aplicar estilos básicos si no los tiene ya
+        if (!link.style.pointerEvents || link.style.pointerEvents === 'none') {
+            link.style.pointerEvents = 'auto';
+        }
+        if (!link.style.cursor || link.style.cursor === 'default') {
+            link.style.cursor = 'pointer';
         }
     });
 }
@@ -193,14 +189,7 @@ function translateContent() {
     const sidebarLinks = document.querySelectorAll('.sidebar a');
     sidebarLinks.forEach(link => {
         if (translations[link.textContent]) {
-            // Preservar el href original
-            const originalHref = link.href;
             link.textContent = translations[link.textContent];
-            // Asegurar que el href se mantenga
-            link.href = originalHref;
-            // Asegurar que sea clickeable
-            link.style.pointerEvents = 'auto';
-            link.style.cursor = 'pointer';
         }
     });
     
@@ -213,18 +202,11 @@ function translateContent() {
         }
     });
     
-    // Traducir enlaces principales (posts) - solo el texto, preservando funcionalidad
+    // Traducir enlaces principales (posts) - solo el texto
     const postLinks = document.querySelectorAll('h2 a');
     postLinks.forEach(link => {
         if (translations[link.textContent]) {
-            // Preservar el href original
-            const originalHref = link.href;
             link.textContent = translations[link.textContent];
-            // Asegurar que el href se mantenga
-            link.href = originalHref;
-            // Asegurar que sea clickeable
-            link.style.pointerEvents = 'auto';
-            link.style.cursor = 'pointer';
         }
     });
 }
