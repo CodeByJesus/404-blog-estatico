@@ -94,7 +94,7 @@ const translations = {
     'No tags.': 'No hay etiquetas.'
 };
 
-// Función de traducción manual
+// Función de traducción manual - versión simplificada
 function translatePage() {
     const translateBtn = document.getElementById('translate-btn');
     
@@ -104,8 +104,8 @@ function translatePage() {
         translateBtn.innerHTML = '<i class="fas fa-language"></i> Español';
         translateBtn.classList.add('translating');
         
-        // Traducir contenido
-        translateContent();
+        // Solo traducir elementos que no sean enlaces
+        translateSafeElements();
         
     } else {
         // Traducir de vuelta a español
@@ -114,29 +114,29 @@ function translatePage() {
         translateBtn.classList.remove('translating');
         
         // Restaurar contenido original
-        translateContent();
+        translateSafeElements();
     }
 }
 
-// Función para traducir el contenido
-function translateContent() {
-    // Traducir títulos
-    const titles = document.querySelectorAll('h1, h2, h3');
-    titles.forEach(title => {
+// Función para traducir solo elementos seguros (sin tocar enlaces)
+function translateSafeElements() {
+    // Solo traducir títulos principales (h1)
+    const mainTitles = document.querySelectorAll('h1');
+    mainTitles.forEach(title => {
         if (translations[title.textContent]) {
             title.textContent = translations[title.textContent];
         }
     });
     
-    // Traducir párrafos
+    // Solo traducir párrafos que no contengan enlaces
     const paragraphs = document.querySelectorAll('p');
     paragraphs.forEach(p => {
-        if (translations[p.textContent]) {
+        if (!p.querySelector('a') && translations[p.textContent]) {
             p.textContent = translations[p.textContent];
         }
     });
     
-    // Traducir metadatos
+    // Solo traducir metadatos
     const metaTexts = document.querySelectorAll('.meta');
     metaTexts.forEach(meta => {
         if (translations[meta.textContent]) {
@@ -144,27 +144,11 @@ function translateContent() {
         }
     });
     
-    // Traducir enlaces de paginación
-    const paginationLinks = document.querySelectorAll('.pagination a');
-    paginationLinks.forEach(link => {
-        if (translations[link.textContent]) {
-            link.textContent = translations[link.textContent];
-        }
-    });
-    
-    // Traducir elementos de la barra lateral (solo texto, no enlaces)
-    const sidebarTexts = document.querySelectorAll('.sidebar h3, .sidebar p');
-    sidebarTexts.forEach(element => {
-        if (translations[element.textContent]) {
+    // Solo traducir elementos de la barra lateral que no sean enlaces
+    const sidebarElements = document.querySelectorAll('.sidebar h3, .sidebar p');
+    sidebarElements.forEach(element => {
+        if (!element.querySelector('a') && translations[element.textContent]) {
             element.textContent = translations[element.textContent];
-        }
-    });
-    
-    // Traducir elementos de lista que no contengan enlaces
-    const sidebarListItems = document.querySelectorAll('.sidebar li');
-    sidebarListItems.forEach(li => {
-        if (!li.querySelector('a') && translations[li.textContent]) {
-            li.textContent = translations[li.textContent];
         }
     });
 }
