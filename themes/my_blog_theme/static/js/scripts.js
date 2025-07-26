@@ -107,11 +107,6 @@ function translatePage() {
         // Traducir contenido
         translateContent();
         
-        // Reparar enlaces después de la traducción
-        setTimeout(() => {
-            repairLinks();
-        }, 100);
-        
     } else {
         // Traducir de vuelta a español
         isTranslated = false;
@@ -120,31 +115,12 @@ function translatePage() {
         
         // Restaurar contenido original
         translateContent();
-        
-        // Reparar enlaces después de la traducción
-        setTimeout(() => {
-            repairLinks();
-        }, 100);
     }
-}
-
-// Función para reparar enlaces
-function repairLinks() {
-    const allLinks = document.querySelectorAll('a');
-    allLinks.forEach(link => {
-        // Solo aplicar estilos básicos si no los tiene ya
-        if (!link.style.pointerEvents || link.style.pointerEvents === 'none') {
-            link.style.pointerEvents = 'auto';
-        }
-        if (!link.style.cursor || link.style.cursor === 'default') {
-            link.style.cursor = 'pointer';
-        }
-    });
 }
 
 // Función para traducir el contenido
 function translateContent() {
-    // Traducir títulos (incluyendo la barra lateral)
+    // Traducir títulos
     const titles = document.querySelectorAll('h1, h2, h3');
     titles.forEach(title => {
         if (translations[title.textContent]) {
@@ -157,15 +133,6 @@ function translateContent() {
     paragraphs.forEach(p => {
         if (translations[p.textContent]) {
             p.textContent = translations[p.textContent];
-        }
-    });
-    
-    // Traducir elementos de lista (pero preservar enlaces)
-    const listItems = document.querySelectorAll('li');
-    listItems.forEach(li => {
-        // Solo traducir si no contiene enlaces
-        if (!li.querySelector('a') && translations[li.textContent]) {
-            li.textContent = translations[li.textContent];
         }
     });
     
@@ -185,28 +152,19 @@ function translateContent() {
         }
     });
     
-    // Traducir enlaces de la barra lateral (solo el texto, no la URL)
-    const sidebarLinks = document.querySelectorAll('.sidebar a');
-    sidebarLinks.forEach(link => {
-        if (translations[link.textContent]) {
-            link.textContent = translations[link.textContent];
-        }
-    });
-    
-    // Traducir otros elementos de la barra lateral
-    const sidebarElements = document.querySelectorAll('.sidebar p, .sidebar li');
-    sidebarElements.forEach(element => {
-        // Solo traducir si no contiene enlaces
-        if (!element.querySelector('a') && translations[element.textContent]) {
+    // Traducir elementos de la barra lateral (solo texto, no enlaces)
+    const sidebarTexts = document.querySelectorAll('.sidebar h3, .sidebar p');
+    sidebarTexts.forEach(element => {
+        if (translations[element.textContent]) {
             element.textContent = translations[element.textContent];
         }
     });
     
-    // Traducir enlaces principales (posts) - solo el texto
-    const postLinks = document.querySelectorAll('h2 a');
-    postLinks.forEach(link => {
-        if (translations[link.textContent]) {
-            link.textContent = translations[link.textContent];
+    // Traducir elementos de lista que no contengan enlaces
+    const sidebarListItems = document.querySelectorAll('.sidebar li');
+    sidebarListItems.forEach(li => {
+        if (!li.querySelector('a') && translations[li.textContent]) {
+            li.textContent = translations[li.textContent];
         }
     });
 }
