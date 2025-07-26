@@ -290,18 +290,7 @@ h1::after, h2::after {
     100% { left: 100%; }
 }
 
-/* Ocultar elementos de Google Translate */
-.goog-te-banner-frame {
-    display: none !important;
-}
 
-.goog-te-menu-value {
-    display: none !important;
-}
-
-.goog-te-gadget {
-    display: none !important;
-}
 
 /* Estilos para el pie de página */
 footer {

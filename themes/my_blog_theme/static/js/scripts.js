@@ -18,71 +18,97 @@ setInterval(() => {
 
 // Variable global para controlar el estado de traducción
 let isTranslated = false;
-let googleTranslateInstance = null;
 
-// Función de traducción usando Google Translate
+// Función de traducción manual
 function translatePage() {
     const translateBtn = document.getElementById('translate-btn');
     
     if (!isTranslated) {
-        // Traducir a inglés
+        // Cambiar a versión en inglés
         isTranslated = true;
         translateBtn.innerHTML = '<i class="fas fa-language"></i> Español';
         translateBtn.classList.add('translating');
         
-        // Cargar Google Translate
-        loadGoogleTranslate('en');
+        // Cambiar URLs de los posts
+        changePostUrls('en');
+        
+        // Cambiar textos de la interfaz
+        changeInterfaceText('en');
         
     } else {
-        // Traducir de vuelta a español
+        // Cambiar de vuelta a español
         isTranslated = false;
         translateBtn.innerHTML = '<i class="fas fa-language"></i> Inglés';
         translateBtn.classList.remove('translating');
         
-        // Restaurar idioma original
-        loadGoogleTranslate('es');
+        // Restaurar URLs originales
+        changePostUrls('es');
+        
+        // Restaurar textos de la interfaz
+        changeInterfaceText('es');
     }
 }
 
-// Función para cargar Google Translate
-function loadGoogleTranslate(targetLang) {
-    // Remover script existente si hay
-    const existingScript = document.querySelector('script[src*="translate.google.com"]');
-    if (existingScript) {
-        existingScript.remove();
-    }
+// Función para cambiar URLs de los posts
+function changePostUrls(lang) {
+    const postLinks = document.querySelectorAll('h2 a');
     
-    // Limpiar contenedor
-    const container = document.getElementById('google_translate_element');
-    if (container) {
-        container.innerHTML = '';
-    }
-    
-    // Cargar Google Translate
-    const script = document.createElement('script');
-    script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
-    document.head.appendChild(script);
-}
-
-// Función de inicialización de Google Translate
-window.googleTranslateElementInit = function() {
-    // Crear nueva instancia
-    googleTranslateInstance = new google.translate.TranslateElement({
-        pageLanguage: 'es',
-        includedLanguages: 'en,es',
-        autoDisplay: false,
-        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-    }, 'google_translate_element');
-    
-    // Activar traducción
-    setTimeout(() => {
-        const select = document.querySelector('.goog-te-combo');
-        if (select) {
-            select.value = isTranslated ? 'en' : 'es';
-            select.dispatchEvent(new Event('change'));
+    postLinks.forEach(link => {
+        if (lang === 'en') {
+            // Cambiar a versión en inglés
+            if (link.href.includes('my-first-post')) {
+                link.href = link.href.replace('my-first-post', 'my-first-post-en');
+            } else if (link.href.includes('por-que-pelican')) {
+                link.href = link.href.replace('por-que-pelican', 'por-que-pelican-en');
+            }
+        } else {
+            // Cambiar de vuelta a español
+            if (link.href.includes('my-first-post-en')) {
+                link.href = link.href.replace('my-first-post-en', 'my-first-post');
+            } else if (link.href.includes('por-que-pelican-en')) {
+                link.href = link.href.replace('por-que-pelican-en', 'por-que-pelican');
+            }
         }
-    }, 1000);
-};
+    });
+}
+
+// Función para cambiar textos de la interfaz
+function changeInterfaceText(lang) {
+    if (lang === 'en') {
+        // Cambiar a inglés
+        const metaTexts = document.querySelectorAll('.meta');
+        metaTexts.forEach(meta => {
+            meta.textContent = meta.textContent.replace('Escrito por', 'Written by');
+        });
+        
+        // Cambiar texto de paginación si existe
+        const paginationLinks = document.querySelectorAll('.pagination a');
+        paginationLinks.forEach(link => {
+            if (link.textContent === 'Anterior') {
+                link.textContent = 'Previous';
+            } else if (link.textContent === 'Siguiente') {
+                link.textContent = 'Next';
+            }
+        });
+        
+    } else {
+        // Cambiar de vuelta a español
+        const metaTexts = document.querySelectorAll('.meta');
+        metaTexts.forEach(meta => {
+            meta.textContent = meta.textContent.replace('Written by', 'Escrito por');
+        });
+        
+        // Cambiar texto de paginación si existe
+        const paginationLinks = document.querySelectorAll('.pagination a');
+        paginationLinks.forEach(link => {
+            if (link.textContent === 'Previous') {
+                link.textContent = 'Anterior';
+            } else if (link.textContent === 'Next') {
+                link.textContent = 'Siguiente';
+            }
+        });
+    }
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('starfield');
