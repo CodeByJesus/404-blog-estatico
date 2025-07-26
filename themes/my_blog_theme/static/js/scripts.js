@@ -67,13 +67,31 @@ const translations = {
     '¡Espero que esta explicación aclare por qué elegí Pelican para este blog y cómo aprovecha las ventajas de los sitios estáticos!': 'I hope this explanation clarifies why I chose Pelican for this blog and how it takes advantage of the benefits of static sites!',
     'I hope this explanation clarifies why I chose Pelican for this blog and how it takes advantage of the benefits of static sites!': '¡Espero que esta explicación aclare por qué elegí Pelican para este blog y cómo aprovecha las ventajas de los sitios estáticos!',
     
-    // Interfaz
+    // Interfaz principal
     'Escrito por': 'Written by',
     'Written by': 'Escrito por',
     'Anterior': 'Previous',
     'Previous': 'Anterior',
     'Siguiente': 'Next',
-    'Next': 'Siguiente'
+    'Next': 'Siguiente',
+    'No hay publicaciones disponibles.': 'No publications available.',
+    'No publications available.': 'No hay publicaciones disponibles.',
+    
+    // Barra lateral
+    'Posts Recientes': 'Recent Posts',
+    'Recent Posts': 'Posts Recientes',
+    'No hay posts recientes.': 'No recent posts.',
+    'No recent posts.': 'No hay posts recientes.',
+    'Sígueme': 'Follow Me',
+    'Follow Me': 'Sígueme',
+    'Categorías': 'Categories',
+    'Categories': 'Categorías',
+    'No hay categorías.': 'No categories.',
+    'No categories.': 'No hay categorías.',
+    'Etiquetas': 'Tags',
+    'Tags': 'Etiquetas',
+    'No hay etiquetas.': 'No tags.',
+    'No tags.': 'No hay etiquetas.'
 };
 
 // Función de traducción manual
@@ -137,6 +155,23 @@ function translateContent() {
     // Traducir enlaces de paginación
     const paginationLinks = document.querySelectorAll('.pagination a');
     paginationLinks.forEach(link => {
+        if (translations[link.textContent]) {
+            link.textContent = translations[link.textContent];
+        }
+    });
+    
+    // Traducir elementos de la barra lateral
+    const sidebarElements = document.querySelectorAll('.sidebar h3, .sidebar p, .sidebar li');
+    sidebarElements.forEach(element => {
+        if (translations[element.textContent]) {
+            element.textContent = translations[element.textContent];
+        }
+    });
+    
+    // Preservar enlaces - NO cambiar las URLs
+    const allLinks = document.querySelectorAll('a');
+    allLinks.forEach(link => {
+        // Solo traducir el texto del enlace, no la URL
         if (translations[link.textContent]) {
             link.textContent = translations[link.textContent];
         }
