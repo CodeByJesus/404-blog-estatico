@@ -223,6 +223,14 @@ h1::after, h2::after {
     color: #aaa;
 }
 
+/* Estilos para el resumen del post */
+.post p {
+    color: #d0d0d0; /* Color más claro para el resumen */
+    font-size: 1.1em; /* Tamaño de fuente ligeramente mayor */
+    line-height: 1.6; /* Mejor espaciado entre líneas */
+    margin-bottom: 15px; /* Espacio adicional al final */
+}
+
 /* Estilos para el pie de página */
 footer {
     background-color: #0a0a1a;
