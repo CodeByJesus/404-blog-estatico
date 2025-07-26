@@ -292,6 +292,14 @@ h1::after, h2::after {
 
 
 
+/* Asegurar que los enlaces sean clickeables */
+a {
+    pointer-events: auto !important;
+    cursor: pointer !important;
+    position: relative;
+    z-index: 10;
+}
+
 /* Estilos para el pie de página */
 footer {
     background-color: #0a0a1a;

@@ -120,7 +120,7 @@ function translatePage() {
 
 // Función para traducir el contenido
 function translateContent() {
-    // Traducir títulos
+    // Traducir títulos (incluyendo la barra lateral)
     const titles = document.querySelectorAll('h1, h2, h3');
     titles.forEach(title => {
         if (translations[title.textContent]) {
@@ -136,10 +136,11 @@ function translateContent() {
         }
     });
     
-    // Traducir elementos de lista
+    // Traducir elementos de lista (pero preservar enlaces)
     const listItems = document.querySelectorAll('li');
     listItems.forEach(li => {
-        if (translations[li.textContent]) {
+        // Solo traducir si no contiene enlaces
+        if (!li.querySelector('a') && translations[li.textContent]) {
             li.textContent = translations[li.textContent];
         }
     });
@@ -160,18 +161,26 @@ function translateContent() {
         }
     });
     
-    // Traducir elementos de la barra lateral
-    const sidebarElements = document.querySelectorAll('.sidebar h3, .sidebar p, .sidebar li');
+    // Traducir enlaces de la barra lateral (solo el texto, no la URL)
+    const sidebarLinks = document.querySelectorAll('.sidebar a');
+    sidebarLinks.forEach(link => {
+        if (translations[link.textContent]) {
+            link.textContent = translations[link.textContent];
+        }
+    });
+    
+    // Traducir otros elementos de la barra lateral
+    const sidebarElements = document.querySelectorAll('.sidebar p, .sidebar li');
     sidebarElements.forEach(element => {
-        if (translations[element.textContent]) {
+        // Solo traducir si no contiene enlaces
+        if (!element.querySelector('a') && translations[element.textContent]) {
             element.textContent = translations[element.textContent];
         }
     });
     
-    // Preservar enlaces - NO cambiar las URLs
-    const allLinks = document.querySelectorAll('a');
-    allLinks.forEach(link => {
-        // Solo traducir el texto del enlace, no la URL
+    // Traducir enlaces principales (posts) - solo el texto
+    const postLinks = document.querySelectorAll('h2 a');
+    postLinks.forEach(link => {
         if (translations[link.textContent]) {
             link.textContent = translations[link.textContent];
         }
