@@ -8,16 +8,27 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-
-    /* Fondo de ciudad futurista */
-    background-image: url('../img/Cyberpunk city sci-fi cityscape.gif'); /* GIF de fondo */
-    background-size: cover; /* Cubre todo el área */
-    background-position: center; /* Centra la imagen */
-    background-attachment: scroll; /* La imagen se desplaza con el scroll */
-    background-color: #0a0a1a; /* Color de respaldo si la imagen no carga */
+    background-color: #0a0a1a; /* Color de respaldo */
     
     /* Superposición oscura para que el texto sea legible */
     position: relative; /* Necesario para el pseudo-elemento de superposición */
+}
+
+/* Video de fondo oculto */
+#bg-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -3; /* Detrás de todo */
+    opacity: 0.8; /* Ligeramente transparente */
+    pointer-events: none; /* No permite interacción */
+    user-select: none; /* No permite selección */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
 }
 
 body::before {
@@ -229,6 +240,26 @@ h1::after, h2::after {
     font-size: 1.1em; /* Tamaño de fuente ligeramente mayor */
     line-height: 1.6; /* Mejor espaciado entre líneas */
     margin-bottom: 15px; /* Espacio adicional al final */
+}
+
+/* Estilos para el botón de traducción */
+#translate-btn {
+    background: linear-gradient(45deg, #00ffff, #ff00ff);
+    border: none;
+    color: #000;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+#translate-btn:hover {
+    background: linear-gradient(45deg, #ff00ff, #00ffff);
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(255, 0, 255, 0.7);
+}
+
+#translate-btn:active {
+    transform: scale(0.95);
 }
 
 /* Estilos para el pie de página */

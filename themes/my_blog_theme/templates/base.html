@@ -12,15 +12,23 @@
     <link rel="stylesheet" href="{{ SITEURL }}/theme/css/styles.css">
     {# No hay extra_head para TinyMCE en el frontend estático #}
 </head>
-<body>
+<body oncontextmenu="return false;" onselectstart="return false;" ondragstart="return false;">
+    <!-- Video de fondo oculto -->
+    <video id="bg-video" autoplay muted loop playsinline>
+        <source src="{{ SITEURL }}/theme/img/cyberpunk-bg.mp4" type="video/mp4">
+    </video>
+    
     <header class="container-fluid py-3" style="background-color: rgba(0, 0, 0, 0.5); border-bottom: 1px solid rgba(0, 255, 255, 0.2);">
         <nav class="d-flex justify-content-between align-items-center">
             <div>
                 <a href="{{ SITEURL }}/" class="text-info h4 mb-0 text-decoration-none">{{ SITENAME }}</a>
             </div>
-            {# La funcionalidad de búsqueda y autenticación se ha eliminado para la versión estática #}
-            {# Si deseas búsqueda, necesitarías una solución basada en JavaScript (ej. Lunr.js) #}
-            {# Si deseas autenticación, necesitarías un backend real #}
+            <div class="d-flex align-items-center">
+                <!-- Botón de traducción -->
+                <button id="translate-btn" class="btn btn-outline-info btn-sm me-2" onclick="translatePage()">
+                    <i class="fas fa-language"></i> Traducir
+                </button>
+            </div>
         </nav>
     </header>
     <!-- Canvas para las estrellas -->
