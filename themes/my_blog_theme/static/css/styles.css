@@ -250,6 +250,8 @@ h1::after, h2::after {
     font-weight: bold;
     transition: all 0.3s ease;
     box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    position: relative;
+    overflow: hidden;
 }
 
 #translate-btn:hover {
@@ -260,6 +262,45 @@ h1::after, h2::after {
 
 #translate-btn:active {
     transform: scale(0.95);
+}
+
+#translate-btn.translating {
+    background: linear-gradient(45deg, #ff00ff, #00ffff);
+    animation: pulse 1.5s infinite;
+}
+
+#translate-btn.translating::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+@keyframes shimmer {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* Ocultar elementos de Google Translate */
+.goog-te-banner-frame {
+    display: none !important;
+}
+
+.goog-te-menu-value {
+    display: none !important;
+}
+
+.goog-te-gadget {
+    display: none !important;
 }
 
 /* Estilos para el pie de página */

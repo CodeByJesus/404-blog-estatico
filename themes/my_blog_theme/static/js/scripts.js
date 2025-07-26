@@ -16,44 +16,74 @@ setInterval(() => {
     }
 }, 1000);
 
-// Función de traducción usando Google Translate API
+// Variable global para controlar el estado de traducción
+let isTranslated = false;
+let googleTranslateInstance = null;
+
+// Función de traducción usando Google Translate
 function translatePage() {
     const translateBtn = document.getElementById('translate-btn');
-    const currentLang = document.documentElement.lang;
     
-    if (currentLang === 'es') {
+    if (!isTranslated) {
         // Traducir a inglés
-        document.documentElement.lang = 'en';
+        isTranslated = true;
         translateBtn.innerHTML = '<i class="fas fa-language"></i> Español';
-        translateBtn.onclick = () => translatePage();
+        translateBtn.classList.add('translating');
         
-        // Aquí podrías integrar con Google Translate API
-        // Por ahora, solo cambiamos el idioma del documento
-        console.log('Traduciendo a inglés...');
+        // Cargar Google Translate si no está cargado
+        if (!window.google || !window.google.translate) {
+            const googleTranslateScript = document.createElement('script');
+            googleTranslateScript.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+            document.head.appendChild(googleTranslateScript);
+        } else {
+            initGoogleTranslate('en');
+        }
         
-        // Ejemplo básico de traducción (en un caso real usarías la API)
-        const elements = document.querySelectorAll('h1, h2, h3, p, a, button, span');
-        elements.forEach(element => {
-            if (element.textContent.includes('Traducir')) {
-                element.textContent = element.textContent.replace('Traducir', 'Translate');
-            }
-        });
     } else {
-        // Traducir a español
-        document.documentElement.lang = 'es';
+        // Traducir de vuelta a español
+        isTranslated = false;
         translateBtn.innerHTML = '<i class="fas fa-language"></i> Traducir';
-        translateBtn.onclick = () => translatePage();
+        translateBtn.classList.remove('translating');
         
-        console.log('Traduciendo a español...');
-        
-        // Ejemplo básico de traducción
-        const elements = document.querySelectorAll('h1, h2, h3, p, a, button, span');
-        elements.forEach(element => {
-            if (element.textContent.includes('Translate')) {
-                element.textContent = element.textContent.replace('Translate', 'Traducir');
-            }
-        });
+        // Restaurar idioma original
+        if (window.google && window.google.translate) {
+            initGoogleTranslate('es');
+        }
     }
+}
+
+// Función de inicialización de Google Translate
+window.googleTranslateElementInit = function() {
+    initGoogleTranslate(isTranslated ? 'en' : 'es');
+};
+
+function initGoogleTranslate(targetLang) {
+    if (googleTranslateInstance) {
+        // Si ya existe una instancia, cambiar el idioma
+        const select = document.querySelector('.goog-te-combo');
+        if (select) {
+            select.value = targetLang;
+            select.dispatchEvent(new Event('change'));
+        }
+        return;
+    }
+    
+    // Crear nueva instancia
+    googleTranslateInstance = new google.translate.TranslateElement({
+        pageLanguage: 'es',
+        includedLanguages: 'en,es',
+        autoDisplay: false,
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+    }, 'google_translate_element');
+    
+    // Activar traducción después de un breve delay
+    setTimeout(() => {
+        const select = document.querySelector('.goog-te-combo');
+        if (select) {
+            select.value = targetLang;
+            select.dispatchEvent(new Event('change'));
+        }
+    }, 500);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
