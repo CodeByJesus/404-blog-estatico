@@ -19,95 +19,128 @@ setInterval(() => {
 // Variable global para controlar el estado de traducción
 let isTranslated = false;
 
+// Diccionario de traducciones
+const translations = {
+    // Primer post
+    'Mi Primer Post en Pelican': 'My First Post in Pelican',
+    'My First Post in Pelican': 'Mi Primer Post en Pelican',
+    'Este es un post de ejemplo para verificar que el blog estático funciona correctamente.': 'This is an example post to verify that the static blog is working correctly.',
+    'This is an example post to verify that the static blog is working correctly.': 'Este es un post de ejemplo para verificar que el blog estático funciona correctamente.',
+    '¡Hola mundo!': 'Hello world!',
+    'Hello world!': '¡Hola mundo!',
+    'Este es el contenido de mi primer post en el blog estático, generado con Pelican.': 'This is the content of my first post in the static blog, generated with Pelican.',
+    'This is the content of my first post in the static blog, generated with Pelican.': 'Este es el contenido de mi primer post en el blog estático, generado con Pelican.',
+    'Si estás leyendo esto, significa que el despliegue en Netlify ha sido exitoso y Pelican está funcionando.': 'If you\'re reading this, it means the Netlify deployment has been successful and Pelican is working.',
+    'If you\'re reading this, it means the Netlify deployment has been successful and Pelican is working.': 'Si estás leyendo esto, significa que el despliegue en Netlify ha sido exitoso y Pelican está funcionando.',
+    'Puedes editar este archivo o añadir más archivos Markdown en la carpeta `content/` para crear nuevos posts.': 'You can edit this file or add more Markdown files in the `content/` folder to create new posts.',
+    'You can edit this file or add more Markdown files in the `content/` folder to create new posts.': 'Puedes editar este archivo o añadir más archivos Markdown en la carpeta `content/` para crear nuevos posts.',
+    '¡Éxito!': 'Success!',
+    'Success!': '¡Éxito!',
+    '¡Felicidades por tu blog estático!': 'Congratulations on your static blog!',
+    'Congratulations on your static blog!': '¡Felicidades por tu blog estático!',
+    
+    // Segundo post
+    '¿Por Qué Este Blog Usa Pelican?': 'Why This Blog Uses Pelican?',
+    'Why This Blog Uses Pelican?': '¿Por Qué Este Blog Usa Pelican?',
+    'Descubre por qué este blog ha sido construido como un sitio estático con Pelican, y cómo se relaciona con su versión original de backend en Django.': 'Discover why this blog has been built as a static site with Pelican, and how it relates to its original backend version in Django.',
+    'Discover why this blog has been built as a static site with Pelican, and how it relates to its original backend version in Django.': 'Descubre por qué este blog ha sido construido como un sitio estático con Pelican, y cómo se relaciona con su versión original de backend en Django.',
+    '¡Hola a todos!': 'Hello everyone!',
+    'Hello everyone!': '¡Hola a todos!',
+    'Si estás leyendo esto, es probable que hayas notado la velocidad y la eficiencia de este blog. Hoy quiero compartir la razón detrás de su arquitectura y por qué elegí [Pelican](https://getpelican.com/) para potenciarlo.': 'If you\'re reading this, you\'ve probably noticed the speed and efficiency of this blog. Today I want to share the reason behind its architecture and why I chose [Pelican](https://getpelican.com/) to power it.',
+    'If you\'re reading this, you\'ve probably noticed the speed and efficiency of this blog. Today I want to share the reason behind its architecture and why I chose [Pelican](https://getpelican.com/) to power it.': 'Si estás leyendo esto, es probable que hayas notado la velocidad y la eficiencia de este blog. Hoy quiero compartir la razón detrás de su arquitectura y por qué elegí [Pelican](https://getpelican.com/) para potenciarlo.',
+    'La Ventaja de los Sitios Estáticos': 'The Advantage of Static Sites',
+    'The Advantage of Static Sites': 'La Ventaja de los Sitios Estáticos',
+    'En el mundo del desarrollo web, existen dos grandes enfoques para construir sitios: dinámicos y estáticos. Los sitios dinámicos (como los construidos con Django, WordPress, etc.) generan el contenido "sobre la marcha" cada vez que un usuario los visita, consultando bases de datos y ejecutando lógica de servidor. Esto es potente, pero puede ser más lento y costoso.': 'In the world of web development, there are two main approaches to building sites: dynamic and static. Dynamic sites (like those built with Django, WordPress, etc.) generate content "on the fly" every time a user visits them, querying databases and executing server logic. This is powerful, but can be slower and more expensive.',
+    'In the world of web development, there are two main approaches to building sites: dynamic and static. Dynamic sites (like those built with Django, WordPress, etc.) generate content "on the fly" every time a user visits them, querying databases and executing server logic. This is powerful, but can be slower and more expensive.': 'En el mundo del desarrollo web, existen dos grandes enfoques para construir sitios: dinámicos y estáticos. Los sitios dinámicos (como los construidos con Django, WordPress, etc.) generan el contenido "sobre la marcha" cada vez que un usuario los visita, consultando bases de datos y ejecutando lógica de servidor. Esto es potente, pero puede ser más lento y costoso.',
+    'Los sitios estáticos, por otro lado, son simplemente archivos HTML, CSS y JavaScript pre-generados. Cuando un usuario los visita, el servidor simplemente entrega esos archivos directamente. Esto ofrece ventajas significativas:': 'Static sites, on the other hand, are simply pre-generated HTML, CSS, and JavaScript files. When a user visits them, the server simply delivers those files directly. This offers significant advantages:',
+    'Static sites, on the other hand, are simply pre-generated HTML, CSS, and JavaScript files. When a user visits them, the server simply delivers those files directly. This offers significant advantages:': 'Los sitios estáticos, por otro lado, son simplemente archivos HTML, CSS y JavaScript pre-generados. Cuando un usuario los visita, el servidor simplemente entrega esos archivos directamente. Esto ofrece ventajas significativas:',
+    '**Velocidad Extrema:** Al no haber procesamiento en el servidor, la carga es casi instantánea.': '**Extreme Speed:** With no server-side processing, loading is almost instantaneous.',
+    '**Extreme Speed:** With no server-side processing, loading is almost instantaneous.': '**Velocidad Extrema:** Al no haber procesamiento en el servidor, la carga es casi instantánea.',
+    '**Seguridad Mejorada:** Menos componentes dinámicos significan menos puntos de ataque.': '**Enhanced Security:** Fewer dynamic components mean fewer attack points.',
+    '**Enhanced Security:** Fewer dynamic components mean fewer attack points.': '**Seguridad Mejorada:** Menos componentes dinámicos significan menos puntos de ataque.',
+    '**Costo Reducido:** Pueden alojarse de forma gratuita o muy económica en servicios como Netlify.': '**Reduced Cost:** They can be hosted for free or very cheaply on services like Netlify.',
+    '**Reduced Cost:** They can be hosted for free or very cheaply on services like Netlify.': '**Costo Reducido:** Pueden alojarse de forma gratuita o muy económica en servicios como Netlify.',
+    '**Simplicidad de Mantenimiento:** Una vez generados, los archivos son muy fáciles de servir.': '**Simplicity of Maintenance:** Once generated, the files are very easy to serve.',
+    '**Simplicity of Maintenance:** Once generated, the files are very easy to serve.': '**Simplicidad de Mantenimiento:** Una vez generados, los archivos son muy fáciles de servir.',
+    'Pelican es un generador de sitios estáticos escrito en Python que me permite escribir mis posts en Markdown y luego "compilarlos" a HTML puro, aprovechando todas estas ventajas.': 'Pelican is a static site generator written in Python that allows me to write my posts in Markdown and then "compile" them to pure HTML, taking advantage of all these benefits.',
+    'Pelican is a static site generator written in Python that allows me to write my posts in Markdown and then "compile" them to pure HTML, taking advantage of all these benefits.': 'Pelican es un generador de sitios estáticos escrito en Python que me permite escribir mis posts en Markdown y luego "compilarlos" a HTML puro, aprovechando todas estas ventajas.',
+    '¡Espero que esta explicación aclare por qué elegí Pelican para este blog y cómo aprovecha las ventajas de los sitios estáticos!': 'I hope this explanation clarifies why I chose Pelican for this blog and how it takes advantage of the benefits of static sites!',
+    'I hope this explanation clarifies why I chose Pelican for this blog and how it takes advantage of the benefits of static sites!': '¡Espero que esta explicación aclare por qué elegí Pelican para este blog y cómo aprovecha las ventajas de los sitios estáticos!',
+    
+    // Interfaz
+    'Escrito por': 'Written by',
+    'Written by': 'Escrito por',
+    'Anterior': 'Previous',
+    'Previous': 'Anterior',
+    'Siguiente': 'Next',
+    'Next': 'Siguiente'
+};
+
 // Función de traducción manual
 function translatePage() {
     const translateBtn = document.getElementById('translate-btn');
     
     if (!isTranslated) {
-        // Cambiar a versión en inglés
+        // Traducir a inglés
         isTranslated = true;
         translateBtn.innerHTML = '<i class="fas fa-language"></i> Español';
         translateBtn.classList.add('translating');
         
-        // Cambiar URLs de los posts
-        changePostUrls('en');
-        
-        // Cambiar textos de la interfaz
-        changeInterfaceText('en');
+        // Traducir contenido
+        translateContent();
         
     } else {
-        // Cambiar de vuelta a español
+        // Traducir de vuelta a español
         isTranslated = false;
         translateBtn.innerHTML = '<i class="fas fa-language"></i> Inglés';
         translateBtn.classList.remove('translating');
         
-        // Restaurar URLs originales
-        changePostUrls('es');
-        
-        // Restaurar textos de la interfaz
-        changeInterfaceText('es');
+        // Restaurar contenido original
+        translateContent();
     }
 }
 
-// Función para cambiar URLs de los posts
-function changePostUrls(lang) {
-    const postLinks = document.querySelectorAll('h2 a');
-    
-    postLinks.forEach(link => {
-        if (lang === 'en') {
-            // Cambiar a versión en inglés
-            if (link.href.includes('my-first-post')) {
-                link.href = link.href.replace('my-first-post', 'my-first-post-en');
-            } else if (link.href.includes('por-que-pelican')) {
-                link.href = link.href.replace('por-que-pelican', 'por-que-pelican-en');
-            }
-        } else {
-            // Cambiar de vuelta a español
-            if (link.href.includes('my-first-post-en')) {
-                link.href = link.href.replace('my-first-post-en', 'my-first-post');
-            } else if (link.href.includes('por-que-pelican-en')) {
-                link.href = link.href.replace('por-que-pelican-en', 'por-que-pelican');
-            }
+// Función para traducir el contenido
+function translateContent() {
+    // Traducir títulos
+    const titles = document.querySelectorAll('h1, h2, h3');
+    titles.forEach(title => {
+        if (translations[title.textContent]) {
+            title.textContent = translations[title.textContent];
         }
     });
-}
-
-// Función para cambiar textos de la interfaz
-function changeInterfaceText(lang) {
-    if (lang === 'en') {
-        // Cambiar a inglés
-        const metaTexts = document.querySelectorAll('.meta');
-        metaTexts.forEach(meta => {
-            meta.textContent = meta.textContent.replace('Escrito por', 'Written by');
-        });
-        
-        // Cambiar texto de paginación si existe
-        const paginationLinks = document.querySelectorAll('.pagination a');
-        paginationLinks.forEach(link => {
-            if (link.textContent === 'Anterior') {
-                link.textContent = 'Previous';
-            } else if (link.textContent === 'Siguiente') {
-                link.textContent = 'Next';
-            }
-        });
-        
-    } else {
-        // Cambiar de vuelta a español
-        const metaTexts = document.querySelectorAll('.meta');
-        metaTexts.forEach(meta => {
-            meta.textContent = meta.textContent.replace('Written by', 'Escrito por');
-        });
-        
-        // Cambiar texto de paginación si existe
-        const paginationLinks = document.querySelectorAll('.pagination a');
-        paginationLinks.forEach(link => {
-            if (link.textContent === 'Previous') {
-                link.textContent = 'Anterior';
-            } else if (link.textContent === 'Next') {
-                link.textContent = 'Siguiente';
-            }
-        });
-    }
+    
+    // Traducir párrafos
+    const paragraphs = document.querySelectorAll('p');
+    paragraphs.forEach(p => {
+        if (translations[p.textContent]) {
+            p.textContent = translations[p.textContent];
+        }
+    });
+    
+    // Traducir elementos de lista
+    const listItems = document.querySelectorAll('li');
+    listItems.forEach(li => {
+        if (translations[li.textContent]) {
+            li.textContent = translations[li.textContent];
+        }
+    });
+    
+    // Traducir metadatos
+    const metaTexts = document.querySelectorAll('.meta');
+    metaTexts.forEach(meta => {
+        if (translations[meta.textContent]) {
+            meta.textContent = translations[meta.textContent];
+        }
+    });
+    
+    // Traducir enlaces de paginación
+    const paginationLinks = document.querySelectorAll('.pagination a');
+    paginationLinks.forEach(link => {
+        if (translations[link.textContent]) {
+            link.textContent = translations[link.textContent];
+        }
+    });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
