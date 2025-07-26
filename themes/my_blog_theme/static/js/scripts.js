@@ -30,44 +30,42 @@ function translatePage() {
         translateBtn.innerHTML = '<i class="fas fa-language"></i> Español';
         translateBtn.classList.add('translating');
         
-        // Cargar Google Translate si no está cargado
-        if (!window.google || !window.google.translate) {
-            const googleTranslateScript = document.createElement('script');
-            googleTranslateScript.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
-            document.head.appendChild(googleTranslateScript);
-        } else {
-            initGoogleTranslate('en');
-        }
+        // Cargar Google Translate
+        loadGoogleTranslate('en');
         
     } else {
         // Traducir de vuelta a español
         isTranslated = false;
-        translateBtn.innerHTML = '<i class="fas fa-language"></i> Traducir';
+        translateBtn.innerHTML = '<i class="fas fa-language"></i> Inglés';
         translateBtn.classList.remove('translating');
         
         // Restaurar idioma original
-        if (window.google && window.google.translate) {
-            initGoogleTranslate('es');
-        }
+        loadGoogleTranslate('es');
     }
+}
+
+// Función para cargar Google Translate
+function loadGoogleTranslate(targetLang) {
+    // Remover script existente si hay
+    const existingScript = document.querySelector('script[src*="translate.google.com"]');
+    if (existingScript) {
+        existingScript.remove();
+    }
+    
+    // Limpiar contenedor
+    const container = document.getElementById('google_translate_element');
+    if (container) {
+        container.innerHTML = '';
+    }
+    
+    // Cargar Google Translate
+    const script = document.createElement('script');
+    script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+    document.head.appendChild(script);
 }
 
 // Función de inicialización de Google Translate
 window.googleTranslateElementInit = function() {
-    initGoogleTranslate(isTranslated ? 'en' : 'es');
-};
-
-function initGoogleTranslate(targetLang) {
-    if (googleTranslateInstance) {
-        // Si ya existe una instancia, cambiar el idioma
-        const select = document.querySelector('.goog-te-combo');
-        if (select) {
-            select.value = targetLang;
-            select.dispatchEvent(new Event('change'));
-        }
-        return;
-    }
-    
     // Crear nueva instancia
     googleTranslateInstance = new google.translate.TranslateElement({
         pageLanguage: 'es',
@@ -76,15 +74,15 @@ function initGoogleTranslate(targetLang) {
         layout: google.translate.TranslateElement.InlineLayout.SIMPLE
     }, 'google_translate_element');
     
-    // Activar traducción después de un breve delay
+    // Activar traducción
     setTimeout(() => {
         const select = document.querySelector('.goog-te-combo');
         if (select) {
-            select.value = targetLang;
+            select.value = isTranslated ? 'en' : 'es';
             select.dispatchEvent(new Event('change'));
         }
-    }, 500);
-}
+    }, 1000);
+};
 
 document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('starfield');
